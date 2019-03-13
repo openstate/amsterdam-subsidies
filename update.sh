@@ -12,8 +12,8 @@ do
   git add "bomen$i.csv"
 done
 
-# git config --global user.email "treebot@bje.dds.nl"
-# git config --global user.name "Treebot Amsterdam"
+git config --global user.email "treebot@bje.dds.nl"
+git config --global user.name "Treebot Amsterdam"
 git commit -F message.txt && \
-              git push -q https://${GITHUB_PERSONAL_TOKEN}@github.com/simonw/sf-tree-history.git master \
+              git push https://${GITHUB_PERSONAL_TOKEN}@github.com/openstate/amsterdam-bomen.git master \
               || true
