@@ -1,0 +1,13 @@
+version: "3.1"
+services:
+   amsterdam-bomen:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ../:/opt/ab
+    networks:
+      - ab
+    restart: always
+networks:
+  ab:
