@@ -3,7 +3,7 @@
 
 # running
 
-`docker-compose up -d` and remember to run `update.sh` in the container every once in a while
+`cd docker && docker-compose up -d` and remember to run `update.sh` in the container every once in a while
 
 # contact
 
