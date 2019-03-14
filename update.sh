@@ -4,7 +4,6 @@ rm -f message.txt
 touch message.txt
 for i in `seq 1 4`;
 do
-  echo $i
   wget -q -O - "https://maps.amsterdam.nl/open_geodata/excel.php?KAARTLAAG=BOMEN&THEMA=bomen$i" |csvformat -d ';' -D ',' |sed '1s/^\xEF\xBB\xBF//;${/^$/d;}' >"bomen$i.csv"
   echo "Bomen $i" >>message.txt
   csv-diff "bomen$i-old.csv" "bomen$i.csv" --key=Boomnummer >>message.txt
