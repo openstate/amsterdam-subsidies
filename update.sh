@@ -2,17 +2,14 @@
 
 rm -f message.txt
 touch message.txt
-for i in `seq 1 4`;
-do
-  wget -q -O - "https://maps.amsterdam.nl/open_geodata/excel.php?KAARTLAAG=BOMEN&THEMA=bomen$i" |csvformat -d ';' -D ',' |sed '1s/^\xEF\xBB\xBF//;${/^$/d;}' >"bomen$i.csv"
-  echo "Bomen $i" >>message.txt
-  csv-diff "bomen$i-old.csv" "bomen$i.csv" --key=Boomnummer >>message.txt
-  cp -f "bomen$i.csv" "bomen$i-old.csv"
-  git add "bomen$i.csv"
+  wget -q -O - "https://api.data.amsterdam.nl/dcatd/datasets/yvlbMxqPKn1ULw/purls/72c8_AyB5gvJ4Q" |csvformat -d ';' -D ',' |sed '1s/^\xEF\xBB\xBF//;${/^$/d;}' >"subsidies.csv"
+  csv-diff subsidies-old.csv subsidies.csv --key=DOSSIERNUMMER >>message.txt
+  cp -f subsidies.csv subsidies-old.csv
+  git add subsidies.csv
 done
 
-git config --global user.email "treebot@bje.dds.nl"
-git config --global user.name "Treebot Amsterdam"
+git config --global user.email "subsidiebot@bje.dds.nl"
+git config --global user.name "Subsidiebot Amsterdam"
 git commit -F message.txt && \
               git push https://${GITHUB_PERSONAL_TOKEN}@github.com/openstate/amsterdam-bomen.git master \
               || true
