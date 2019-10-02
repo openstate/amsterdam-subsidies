@@ -2,11 +2,13 @@
 
 rm -f message.txt
 touch message.txt
-  wget -q -O - "https://api.data.amsterdam.nl/dcatd/datasets/yvlbMxqPKn1ULw/purls/72c8_AyB5gvJ4Q" |csvformat -d ';' -D ',' |sed '1s/^\xEF\xBB\xBF//;${/^$/d;}' >"subsidies.csv"
-  csv-diff subsidies-old.csv subsidies.csv --key=DOSSIERNUMMER >>message.txt
-  cp -f subsidies.csv subsidies-old.csv
-  git add subsidies.csv
-done
+wget -q -O tmp-subsidies.csv "https://api.data.amsterdam.nl/dcatd/datasets/yvlbMxqPKn1ULw/purls/72c8_AyB5gvJ4Q"
+csvformat -d ';' -D ',' -e iso-8859-1 tmp-subsidies.csv >tmp-subsidies2.csv
+csvcut -c 1-12 tmp-subsidies2.csv >tmp-subsidies3.csv
+sed '1s/^\xEF\xBB\xBF//;${/^$/d;}' tmp-subsidies3.csv >"subsidies.csv"
+csv-diff subsidies-old.csv subsidies.csv --key=DOSSIERNUMMER >>message.txt
+cp -f subsidies.csv subsidies-old.csv
+git add subsidies.csv
 
 git config --global user.email "subsidiebot@bje.dds.nl"
 git config --global user.name "Subsidiebot Amsterdam"

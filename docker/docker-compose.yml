@@ -10,4 +10,4 @@ services:
       - as
     restart: always
 networks:
-  ab:
+  as:
