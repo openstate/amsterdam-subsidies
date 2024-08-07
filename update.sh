@@ -12,15 +12,21 @@ then
 else
   cp tmp-subsidies2.csv tmp-subsidies.csv
 fi
-csvformat -d ';' -D ',' -e iso-8859-1 tmp-subsidies.csv >tmp-subsidies2.csv
+csvformat -d ',' -D ',' -e iso-8859-1 tmp-subsidies.csv >tmp-subsidies2.csv
 csvcut -c 1-12 tmp-subsidies2.csv >tmp-subsidies3.csv
 sed '1s/^\xEF\xBB\xBF//;${/^$/d;}' tmp-subsidies3.csv >"subsidies.csv"
-csv-diff subsidies-old.csv subsidies.csv --key=DOSSIERNUMMER >>message.txt
+csv-diff subsidies-old.csv subsidies.csv --key=Dossiernummer >>message.txt
 cp -f subsidies.csv subsidies-old.csv
 git add subsidies.csv
 
 git config --global user.email "subsidiebot@bje.dds.nl"
 git config --global user.name "Subsidiebot Amsterdam"
-git commit -F message.txt && \
+COMMSG=`cat message.txt`
+if [ -z "$COMMSG" ];
+then
+  echo "Nothing changed."
+else
+  git commit -F message.txt && \
               git push -q https://${GITHUB_PERSONAL_TOKEN}@github.com/openstate/amsterdam-subsidies.git master \
               || true
+fi
