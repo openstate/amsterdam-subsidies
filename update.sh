@@ -15,7 +15,7 @@ fi
 csvformat -d ',' -D ',' -e iso-8859-1 tmp-subsidies.csv >tmp-subsidies2.csv
 csvcut -c 1-12 tmp-subsidies2.csv >tmp-subsidies3.csv
 sed '1s/^\xEF\xBB\xBF//;${/^$/d;}' tmp-subsidies3.csv >"subsidies.csv"
-csv-diff subsidies-old.csv subsidies.csv --key=Dossiernummer >>message.txt
+csv-diff subsidies-old.csv subsidies.csv --key=Id >>message.txt
 cp -f subsidies.csv subsidies-old.csv
 git add subsidies.csv
 
